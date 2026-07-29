@@ -1,12 +1,9 @@
-RAYLIB_PREFIX ?= $(shell brew --prefix raylib)
-export PKG_CONFIG_PATH := $(RAYLIB_PREFIX)/lib/pkgconfig:$(PKG_CONFIG_PATH)
-export LD_LIBRARY_PATH := $(RAYLIB_PREFIX)/lib:$(LD_LIBRARY_PATH)
-export CGO_LDFLAGS := -Wl,-rpath,$(RAYLIB_PREFIX)/lib $(CGO_LDFLAGS)
+BREW_RAYLIB_PREFIX := $(shell brew --prefix raylib)
 
 .PHONY: run build
 
 run:
-	go run .
+	CGO_ENABLED=0 LD_LIBRARY_PATH="$(BREW_RAYLIB_PREFIX)/lib:$$LD_LIBRARY_PATH" DYLD_LIBRARY_PATH="$(BREW_RAYLIB_PREFIX)/lib:$$DYLD_LIBRARY_PATH" go run -tags raylib_no_embed .
 
 build:
-	go build .
+	CGO_ENABLED=0 LD_LIBRARY_PATH="$(BREW_RAYLIB_PREFIX)/lib:$$LD_LIBRARY_PATH" DYLD_LIBRARY_PATH="$(BREW_RAYLIB_PREFIX)/lib:$$DYLD_LIBRARY_PATH" go build -tags raylib_no_embed .

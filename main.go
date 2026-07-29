@@ -1,27 +1,18 @@
 package main
 
-/*
-#cgo pkg-config: raylib
-#include <raylib.h>
-#include <stdlib.h>
-*/
-import "C"
-import "unsafe"
+import rl "github.com/gen2brain/raylib-go/raylib"
 
 func main() {
-	title := C.CString("Snake")
-	defer C.free(unsafe.Pointer(title))
+	rl.InitWindow(800, 450, "Snake")
+	defer rl.CloseWindow()
 
-	C.InitWindow(800, 450, title)
-	defer C.CloseWindow()
+	rl.SetTargetFPS(1)
 
-	C.SetTargetFPS(60)
-
-	for !bool(C.WindowShouldClose()) {
-		C.BeginDrawing()
-		C.ClearBackground(C.RAYWHITE)
-		C.DrawRectangle(0, 0, 20, 20, C.BLACK)
-		// C.DrawRectangle(0, 20, 20, 20, C.BLACK)
-		C.EndDrawing()
+	for !rl.WindowShouldClose() {
+		rl.BeginDrawing()
+		rl.ClearBackground(rl.RayWhite)
+		rl.DrawRectangle(0, 0, 20, 20, rl.Black)
+		// rl.DrawRectangle(0, 20, 20, 20, rl.Black)
+		rl.EndDrawing()
 	}
 }
