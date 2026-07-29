@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -13,10 +13,39 @@ type winStats struct {
 
 var windowDetails = winStats{width: 800, height: 400}
 
+const fps = 20
 const gridIncrement = 20
 
-func onBorder(x int, y int) bool {
-	return true
+func onLeftBorder(x int32) bool {
+	if x == 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func onRightBorder(x int32) bool {
+	if x == windowDetails.width-gridIncrement {
+		return true
+	} else {
+		return false
+	}
+}
+
+func onTopBorder(y int32) bool {
+	if y == 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func onBottomBorder(y int32) bool {
+	if y == windowDetails.height-gridIncrement {
+		return true
+	} else {
+		return false
+	}
 }
 
 func main() {
@@ -25,25 +54,45 @@ func main() {
 
 	var y int32 = 0
 	var x int32 = 0
-	// direction := "s"
+	direction := "s"
 
-	rl.SetTargetFPS(10)
+	rl.SetTargetFPS(fps)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RayWhite)
-		rl.DrawRectangle(x, y, gridIncrement, gridIncrement, rl.Black)
+		rl.DrawRectangle(x, y, gridIncrement, gridIncrement, rl.Blue)
 		rl.EndDrawing()
 
-		bottom := y == windowDetails.height-gridIncrement
+		if direction == "s" {
+			if onBottomBorder(y) {
+				direction = "e"
+			} else {
+				y += gridIncrement
+			}
 
-		if !bottom {
-			y += gridIncrement
+		} else if direction == "e" {
+			if onRightBorder(x) {
+				direction = "n"
+			} else {
+				x += gridIncrement
+			}
+		} else if direction == "n" {
+			if onTopBorder(y) {
+				direction = "w"
+			} else {
+				y -= gridIncrement
+			}
 		} else {
-			x += gridIncrement
+			if onLeftBorder(x) {
+				direction = "s"
+			} else {
+				x -= gridIncrement
+			}
+
 		}
 
-		// fmt.Printf("%d\n", y)
+		fmt.Printf("%d and %d\n", y, windowDetails.height)
 
 	}
 }
