@@ -20,6 +20,8 @@ func main() {
 	for !bool(C.WindowShouldClose()) {
 		C.BeginDrawing()
 		C.ClearBackground(C.RAYWHITE)
+		C.DrawRectangle(0, 0, 20, 20, C.BLACK)
+		// C.DrawRectangle(0, 20, 20, 20, C.BLACK)
 		C.EndDrawing()
 	}
 }
