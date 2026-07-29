@@ -93,6 +93,15 @@ func moveAroundEdges(s *MovingSquare) {
 	}
 }
 
+func renderMovingSquare(s *MovingSquare) {
+	rl.DrawRectangle(s.x, s.y, gridIncrement, gridIncrement, rl.Blue)
+}
+
+func updateMovingSquare(s *MovingSquare) {
+	moveAroundEdges(s)
+	renderMovingSquare(s)
+}
+
 func main() {
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
@@ -103,15 +112,21 @@ func main() {
 		direction: South,
 	}
 
+	square2 := MovingSquare{
+		x:         0,
+		y:         20,
+		direction: South,
+	}
+
 	rl.SetTargetFPS(fps)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RayWhite)
-		rl.DrawRectangle(square1.x, square1.y, gridIncrement, gridIncrement, rl.Blue)
 		rl.EndDrawing()
 
-		moveAroundEdges(&square1)
+		updateMovingSquare(&square1)
+		updateMovingSquare(&square2)
 		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
 	}
