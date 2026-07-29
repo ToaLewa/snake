@@ -6,12 +6,18 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-type winStats struct {
+type MovingSquare struct {
+	x         int32
+	y         int32
+	direction string
+}
+
+type WinStats struct {
 	width  int32
 	height int32
 }
 
-var windowDetails = winStats{width: 800, height: 400}
+var windowDetails = WinStats{width: 800, height: 400}
 
 const fps = 20
 const gridIncrement = 20
