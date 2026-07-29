@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -18,7 +18,7 @@ const (
 type MovingSquare struct {
 	x         int32
 	y         int32
-	direction string
+	direction Direction
 }
 
 type WinStats struct {
@@ -63,51 +63,56 @@ func onBottomBorder(y int32) bool {
 	}
 }
 
+func moveAroundEdges(s *MovingSquare) {
+	if s.direction == South {
+		if onBottomBorder(s.y) {
+			s.direction = East
+		} else {
+			s.y += gridIncrement
+		}
+
+	} else if s.direction == East {
+		if onRightBorder(s.x) {
+			s.direction = North
+		} else {
+			s.x += gridIncrement
+		}
+	} else if s.direction == North {
+		if onTopBorder(s.y) {
+			s.direction = West
+		} else {
+			s.y -= gridIncrement
+		}
+	} else {
+		if onLeftBorder(s.x) {
+			s.direction = South
+		} else {
+			s.x -= gridIncrement
+		}
+
+	}
+}
+
 func main() {
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
 
-	var y int32 = 0
-	var x int32 = 0
-	direction := South
+	square1 := MovingSquare{
+		x:         0,
+		y:         0,
+		direction: South,
+	}
 
 	rl.SetTargetFPS(fps)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.RayWhite)
-		rl.DrawRectangle(x, y, gridIncrement, gridIncrement, rl.Blue)
+		rl.DrawRectangle(square1.x, square1.y, gridIncrement, gridIncrement, rl.Blue)
 		rl.EndDrawing()
 
-		if direction == South {
-			if onBottomBorder(y) {
-				direction = East
-			} else {
-				y += gridIncrement
-			}
-
-		} else if direction == East {
-			if onRightBorder(x) {
-				direction = North
-			} else {
-				x += gridIncrement
-			}
-		} else if direction == North {
-			if onTopBorder(y) {
-				direction = West
-			} else {
-				y -= gridIncrement
-			}
-		} else {
-			if onLeftBorder(x) {
-				direction = South
-			} else {
-				x -= gridIncrement
-			}
-
-		}
-
-		fmt.Printf("%d and %d\n", y, windowDetails.height)
+		moveAroundEdges(&square1)
+		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
 	}
 }
