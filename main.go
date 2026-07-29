@@ -116,7 +116,7 @@ func main() {
 		squares = append(squares, MovingSquare{
 			x:         windowDetails.width - gridIncrement,
 			y:         int32(i),
-			direction: South,
+			direction: North,
 		})
 	}
 
