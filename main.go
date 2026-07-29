@@ -106,17 +106,13 @@ func main() {
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
 
-	square1 := MovingSquare{
+	squares := []MovingSquare{}
+	squares = append(squares, MovingSquare{
 		x:         0,
 		y:         0,
 		direction: South,
-	}
-
-	square2 := MovingSquare{
-		x:         0,
-		y:         20,
-		direction: South,
-	}
+	},
+	)
 
 	rl.SetTargetFPS(fps)
 
@@ -125,8 +121,9 @@ func main() {
 		rl.ClearBackground(rl.RayWhite)
 		rl.EndDrawing()
 
-		updateMovingSquare(&square1)
-		updateMovingSquare(&square2)
+		for i := range squares {
+			updateMovingSquare(&squares[i])
+		}
 		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
 	}
