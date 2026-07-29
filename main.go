@@ -6,6 +6,15 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+type Direction string
+
+const (
+	South Direction = "s"
+	East  Direction = "e"
+	North Direction = "n"
+	West  Direction = "w"
+)
+
 type MovingSquare struct {
 	x         int32
 	y         int32
@@ -60,7 +69,7 @@ func main() {
 
 	var y int32 = 0
 	var x int32 = 0
-	direction := "s"
+	direction := South
 
 	rl.SetTargetFPS(fps)
 
@@ -70,28 +79,28 @@ func main() {
 		rl.DrawRectangle(x, y, gridIncrement, gridIncrement, rl.Blue)
 		rl.EndDrawing()
 
-		if direction == "s" {
+		if direction == South {
 			if onBottomBorder(y) {
-				direction = "e"
+				direction = East
 			} else {
 				y += gridIncrement
 			}
 
-		} else if direction == "e" {
+		} else if direction == East {
 			if onRightBorder(x) {
-				direction = "n"
+				direction = North
 			} else {
 				x += gridIncrement
 			}
-		} else if direction == "n" {
+		} else if direction == North {
 			if onTopBorder(y) {
-				direction = "w"
+				direction = West
 			} else {
 				y -= gridIncrement
 			}
 		} else {
 			if onLeftBorder(x) {
-				direction = "s"
+				direction = South
 			} else {
 				x -= gridIncrement
 			}
