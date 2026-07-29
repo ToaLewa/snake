@@ -103,17 +103,25 @@ func updateMovingSquare(s *MovingSquare) {
 }
 
 func main() {
+	squares := []MovingSquare{}
+
+	for i := 0; i < int(windowDetails.height); i += gridIncrement {
+		squares = append(squares, MovingSquare{
+			x:         0,
+			y:         int32(i),
+			direction: South,
+		},
+		)
+
+		squares = append(squares, MovingSquare{
+			x:         windowDetails.width - gridIncrement,
+			y:         int32(i),
+			direction: South,
+		})
+	}
+
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
-
-	squares := []MovingSquare{}
-	squares = append(squares, MovingSquare{
-		x:         0,
-		y:         0,
-		direction: South,
-	},
-	)
-
 	rl.SetTargetFPS(fps)
 
 	for !rl.WindowShouldClose() {
