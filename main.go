@@ -2,6 +2,7 @@ package main
 
 import (
 	// "fmt"
+	"math/rand"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -102,6 +103,16 @@ func updateMovingSquare(s *MovingSquare) {
 	renderMovingSquare(s)
 }
 
+func spawnMovingSquare() MovingSquare {
+	directions := []Direction{South, East, North, West}
+
+	return MovingSquare{
+		x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
+		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
+		direction: directions[rand.Intn(len(directions))],
+	}
+}
+
 func main() {
 	squares := []MovingSquare{}
 
@@ -131,6 +142,11 @@ func main() {
 
 		for i := range squares {
 			updateMovingSquare(&squares[i])
+		}
+
+		for i := 0; i < 2; i++ {
+			squares = append(squares, spawnMovingSquare())
+
 		}
 		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
