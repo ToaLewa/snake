@@ -1,8 +1,8 @@
+//go:build raylib
+
 package main
 
-import (
-	rl "github.com/gen2brain/raylib-go/raylib"
-)
+import rl "github.com/gen2brain/raylib-go/raylib"
 
 func getInputDirection() (Direction, bool) {
 	if rl.IsKeyPressed(rl.KeyUp) {

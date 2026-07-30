@@ -2,8 +2,6 @@ package main
 
 import (
 	"math/rand"
-
-	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type Direction string
@@ -103,10 +101,6 @@ func moveAroundEdges(s *MovingSquare) {
 	}
 }
 
-func renderMovingSquare(s *MovingSquare) {
-	rl.DrawRectangle(s.x, s.y, gridIncrement, gridIncrement, rl.Blue)
-}
-
 func spawnMovingSquare() MovingSquare {
 	directions := []Direction{South, East, North, West}
 
@@ -125,52 +119,16 @@ func updateSnakeTail(s *Snake) {
 
 		s.tail[i].x = prevX
 		s.tail[i].y = prevY
-
 		prevX, prevY = oldX, oldY
-
-		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Blue)
 	}
 }
 
 func main() {
-	squares := []MovingSquare{}
+	game := SetupGame()
+	defer CloseGame()
 
-	snake := Snake{
-		head: MovingSquare{x: 0, y: 60, direction: East},
-		tail: []FollowerSquare{{x: 0, y: 40}, {x: 0, y: 20}, {x: 0, y: 0}},
-	}
-
-	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
-	defer rl.CloseWindow()
-	rl.SetTargetFPS(fps)
-
-	for !rl.WindowShouldClose() {
-		rl.BeginDrawing()
-		rl.ClearBackground(rl.RayWhite)
-		rl.EndDrawing()
-
-		for i := range squares {
-			var s *MovingSquare = &squares[i]
-			moveAroundEdges(s)
-			renderMovingSquare(s)
-		}
-
-		inputDirection, keyPressed := getInputDirection()
-
-		if keyPressed {
-			snake.head.direction = inputDirection
-		}
-
-		updateSnakeTail(&snake)
-		var s *MovingSquare = &snake.head
-		moveAroundEdges(s)
-		renderMovingSquare(s)
-
-		for i := 0; i < 2; i++ {
-			squares = append(squares, spawnMovingSquare())
-
-		}
-		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
-
+	for !WindowShouldClose() {
+		UpdateGame(&game)
+		DrawGame(&game)
 	}
 }
