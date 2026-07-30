@@ -27,6 +27,11 @@ type WinStats struct {
 	height int32
 }
 
+type Snake struct {
+	head MovingSquare
+	tail []MovingSquare
+}
+
 var windowDetails = WinStats{width: 800, height: 400}
 
 const fps = 20
@@ -113,23 +118,36 @@ func spawnMovingSquare() MovingSquare {
 	}
 }
 
-func main() {
-	squares := []MovingSquare{}
+//head
+//followers
 
+//head needs to move -> pass its location to next, that one needs to move to the last location.
+
+func spawnTwoDumbSnakes(squares *[]MovingSquare) {
 	for i := 0; i < int(windowDetails.height); i += gridIncrement {
-		squares = append(squares, MovingSquare{
+		*squares = append(*squares, MovingSquare{
 			x:         0,
 			y:         int32(i),
 			direction: South,
 		},
 		)
 
-		squares = append(squares, MovingSquare{
+		*squares = append(*squares, MovingSquare{
 			x:         windowDetails.width - gridIncrement,
 			y:         int32(i),
 			direction: North,
 		})
 	}
+}
+
+func main() {
+	squares := []MovingSquare{}
+	spawnTwoDumbSnakes(&squares)
+
+	// snake := Snake{
+	// 	head: MovingSquare{x: 0, y: 0, direction: East},
+	// 	tail: []MovingSquare{},
+	// }
 
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
@@ -144,10 +162,10 @@ func main() {
 			updateMovingSquare(&squares[i])
 		}
 
-		for i := 0; i < 2; i++ {
-			squares = append(squares, spawnMovingSquare())
-
-		}
+		// for i := 0; i < 2; i++ {
+		// 	squares = append(squares, spawnMovingSquare())
+		//
+		// }
 		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
 	}
