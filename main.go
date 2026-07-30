@@ -132,20 +132,6 @@ func updateSnakeTail(s *Snake) {
 	}
 }
 
-func getInputDirection() (Direction, bool) {
-	if rl.IsKeyPressed(rl.KeyUp) {
-		return North, true
-	} else if rl.IsKeyPressed(rl.KeyDown) {
-		return South, true
-	} else if rl.IsKeyPressed(rl.KeyLeft) {
-		return West, true
-	} else if rl.IsKeyPressed(rl.KeyRight) {
-		return East, true
-	} else {
-		return "", false
-	}
-}
-
 func main() {
 	squares := []MovingSquare{}
 
