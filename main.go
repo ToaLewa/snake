@@ -41,23 +41,6 @@ var windowDetails = WinStats{width: 800, height: 400}
 const fps = 20
 const gridIncrement = 20
 
-func spawnTwoDumbSnakes(squares *[]MovingSquare) {
-	for i := 0; i < int(windowDetails.height); i += gridIncrement {
-		*squares = append(*squares, MovingSquare{
-			x:         0,
-			y:         int32(i),
-			direction: South,
-		},
-		)
-
-		*squares = append(*squares, MovingSquare{
-			x:         windowDetails.width - gridIncrement,
-			y:         int32(i),
-			direction: North,
-		})
-	}
-}
-
 func onLeftBorder(x int32) bool {
 	if x == 0 {
 		return true
@@ -170,7 +153,6 @@ func getInputDirection() (Direction, bool) {
 
 func main() {
 	squares := []MovingSquare{}
-	// spawnTwoDumbSnakes(&squares)
 
 	snake := Snake{
 		head: MovingSquare{x: 0, y: 60, direction: East},
@@ -199,10 +181,10 @@ func main() {
 		updateSnakeTail(&snake)
 		updateMovingSquare(&snake.head)
 
-		// for i := 0; i < 2; i++ {
-		// 	squares = append(squares, spawnMovingSquare())
-		//
-		// }
+		for i := 0; i < 2; i++ {
+			squares = append(squares, spawnMovingSquare())
+
+		}
 		// fmt.Printf("%d and %d\n", sy, windowDetails.height)
 
 	}
