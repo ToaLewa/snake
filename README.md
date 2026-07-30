@@ -1,6 +1,6 @@
 # Snake
 
-Minimal Go + raylib scaffold using the Homebrew raylib package.
+Minimal Go + raylib snake game.
 
 ## Run
 
