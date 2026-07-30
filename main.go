@@ -124,8 +124,10 @@ func updateSnakeTail(s *Snake) {
 }
 
 func main() {
-	game := SetupGame()
-	defer CloseGame()
+	game := NewGame()
+
+	SetupWindow()
+	defer CloseWindow()
 
 	for !WindowShouldClose() {
 		UpdateGame(&game)

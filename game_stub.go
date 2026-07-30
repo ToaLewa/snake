@@ -2,11 +2,10 @@
 
 package main
 
-func SetupGame() Game {
-	return NewGame()
+func SetupWindow() {
 }
 
-func CloseGame() {
+func CloseWindow() {
 }
 
 func WindowShouldClose() bool {

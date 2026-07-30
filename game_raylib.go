@@ -4,14 +4,12 @@ package main
 
 import rl "github.com/gen2brain/raylib-go/raylib"
 
-func SetupGame() Game {
+func SetupWindow() {
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	rl.SetTargetFPS(fps)
-
-	return NewGame()
 }
 
-func CloseGame() {
+func CloseWindow() {
 	rl.CloseWindow()
 }
 
