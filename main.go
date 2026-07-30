@@ -107,11 +107,6 @@ func renderMovingSquare(s *MovingSquare) {
 	rl.DrawRectangle(s.x, s.y, gridIncrement, gridIncrement, rl.Blue)
 }
 
-func updateMovingSquare(s *MovingSquare) {
-	moveAroundEdges(s)
-	renderMovingSquare(s)
-}
-
 func spawnMovingSquare() MovingSquare {
 	directions := []Direction{South, East, North, West}
 
@@ -169,7 +164,9 @@ func main() {
 		rl.EndDrawing()
 
 		for i := range squares {
-			updateMovingSquare(&squares[i])
+			var s *MovingSquare = &squares[i]
+			moveAroundEdges(s)
+			renderMovingSquare(s)
 		}
 
 		inputDirection, keyPressed := getInputDirection()
@@ -179,7 +176,9 @@ func main() {
 		}
 
 		updateSnakeTail(&snake)
-		updateMovingSquare(&snake.head)
+		var s *MovingSquare = &snake.head
+		moveAroundEdges(s)
+		renderMovingSquare(s)
 
 		for i := 0; i < 2; i++ {
 			squares = append(squares, spawnMovingSquare())
