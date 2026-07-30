@@ -1,5 +1,3 @@
-//go:build raylib
-
 package main
 
 import rl "github.com/gen2brain/raylib-go/raylib"
@@ -36,8 +34,8 @@ func renderMovingSquare(s *MovingSquare, color rl.Color) {
 
 func drawSnake(s *Snake) {
 	for i := range s.tail {
-		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Red)
+		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Black)
 	}
 
-	renderMovingSquare(&s.head, rl.Red)
+	renderMovingSquare(&s.head, rl.Black)
 }
