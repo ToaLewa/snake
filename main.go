@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"math/rand"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -16,6 +15,11 @@ const (
 	West  Direction = "w"
 )
 
+type FollowerSquare struct {
+	x int32
+	y int32
+}
+
 type MovingSquare struct {
 	x         int32
 	y         int32
@@ -29,13 +33,30 @@ type WinStats struct {
 
 type Snake struct {
 	head MovingSquare
-	tail []MovingSquare
+	tail []FollowerSquare
 }
 
 var windowDetails = WinStats{width: 800, height: 400}
 
-const fps = 20
+const fps = 10
 const gridIncrement = 20
+
+func spawnTwoDumbSnakes(squares *[]MovingSquare) {
+	for i := 0; i < int(windowDetails.height); i += gridIncrement {
+		*squares = append(*squares, MovingSquare{
+			x:         0,
+			y:         int32(i),
+			direction: South,
+		},
+		)
+
+		*squares = append(*squares, MovingSquare{
+			x:         windowDetails.width - gridIncrement,
+			y:         int32(i),
+			direction: North,
+		})
+	}
+}
 
 func onLeftBorder(x int32) bool {
 	if x == 0 {
@@ -118,36 +139,29 @@ func spawnMovingSquare() MovingSquare {
 	}
 }
 
-//head
-//followers
+func updateSnakeTail(s *Snake) {
+	prevX, prevY := s.head.x, s.head.y
 
-//head needs to move -> pass its location to next, that one needs to move to the last location.
+	for i := range s.tail {
+		oldX, oldY := s.tail[i].x, s.tail[i].y
 
-func spawnTwoDumbSnakes(squares *[]MovingSquare) {
-	for i := 0; i < int(windowDetails.height); i += gridIncrement {
-		*squares = append(*squares, MovingSquare{
-			x:         0,
-			y:         int32(i),
-			direction: South,
-		},
-		)
+		s.tail[i].x = prevX
+		s.tail[i].y = prevY
 
-		*squares = append(*squares, MovingSquare{
-			x:         windowDetails.width - gridIncrement,
-			y:         int32(i),
-			direction: North,
-		})
+		prevX, prevY = oldX, oldY
+
+		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Blue)
 	}
 }
 
 func main() {
 	squares := []MovingSquare{}
-	spawnTwoDumbSnakes(&squares)
+	// spawnTwoDumbSnakes(&squares)
 
-	// snake := Snake{
-	// 	head: MovingSquare{x: 0, y: 0, direction: East},
-	// 	tail: []MovingSquare{},
-	// }
+	snake := Snake{
+		head: MovingSquare{x: 0, y: 60, direction: East},
+		tail: []FollowerSquare{{x: 0, y: 40}, {x: 0, y: 20}, {x: 0, y: 0}},
+	}
 
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
 	defer rl.CloseWindow()
@@ -161,6 +175,9 @@ func main() {
 		for i := range squares {
 			updateMovingSquare(&squares[i])
 		}
+
+		updateSnakeTail(&snake)
+		updateMovingSquare(&snake.head)
 
 		// for i := 0; i < 2; i++ {
 		// 	squares = append(squares, spawnMovingSquare())
