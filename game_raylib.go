@@ -22,7 +22,7 @@ func DrawGame(g *Game) {
 	rl.ClearBackground(rl.RayWhite)
 
 	for i := range g.squares {
-		renderMovingSquare(&g.squares[i])
+		renderMovingSquare(&g.squares[i], rl.Blue)
 	}
 
 	drawSnake(&g.snake)
@@ -30,8 +30,8 @@ func DrawGame(g *Game) {
 	rl.EndDrawing()
 }
 
-func renderMovingSquare(s *MovingSquare) {
-	rl.DrawRectangle(s.x, s.y, gridIncrement, gridIncrement, rl.Blue)
+func renderMovingSquare(s *MovingSquare, color rl.Color) {
+	rl.DrawRectangle(s.x, s.y, gridIncrement, gridIncrement, color)
 }
 
 func drawSnake(s *Snake) {
@@ -39,5 +39,5 @@ func drawSnake(s *Snake) {
 		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Blue)
 	}
 
-	renderMovingSquare(&s.head)
+	renderMovingSquare(&s.head, rl.Blue)
 }
