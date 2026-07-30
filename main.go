@@ -4,6 +4,8 @@ import (
 	"math/rand"
 )
 
+import rl "github.com/gen2brain/raylib-go/raylib"
+
 type Direction string
 
 const (
@@ -12,6 +14,12 @@ const (
 	North Direction = "n"
 	West  Direction = "w"
 )
+
+type Food struct {
+	x int32
+	y int32
+	color rl.Color
+}
 
 type FollowerSquare struct {
 	x int32
@@ -108,6 +116,25 @@ func spawnMovingSquare() MovingSquare {
 		x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
 		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
 		direction: directions[rand.Intn(len(directions))],
+	}
+}
+
+func spawnFood() Food {
+	return Food{
+		x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
+		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
+	}
+}
+
+type coord struct {
+	x: int32,
+	y: int32,
+}
+
+func spawnRandom() coord {
+	return coord{
+				x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
+		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
 	}
 }
 

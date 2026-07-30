@@ -28,7 +28,7 @@ func UpdateGame(g *Game) {
 	updateSnakeTail(&g.snake)
 	moveAroundEdges(&g.snake.head)
 
-	for range 2 {
+	/*for range 2 {
 		g.squares = append(g.squares, spawnMovingSquare())
-	}
+	}*/
 }
