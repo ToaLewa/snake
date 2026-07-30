@@ -38,7 +38,7 @@ type Snake struct {
 
 var windowDetails = WinStats{width: 800, height: 400}
 
-const fps = 10
+const fps = 20
 const gridIncrement = 20
 
 func spawnTwoDumbSnakes(squares *[]MovingSquare) {
@@ -154,6 +154,20 @@ func updateSnakeTail(s *Snake) {
 	}
 }
 
+func getInputDirection() (Direction, bool) {
+	if rl.IsKeyPressed(rl.KeyUp) {
+		return North, true
+	} else if rl.IsKeyPressed(rl.KeyDown) {
+		return South, true
+	} else if rl.IsKeyPressed(rl.KeyLeft) {
+		return West, true
+	} else if rl.IsKeyPressed(rl.KeyRight) {
+		return East, true
+	} else {
+		return "", false
+	}
+}
+
 func main() {
 	squares := []MovingSquare{}
 	// spawnTwoDumbSnakes(&squares)
@@ -174,6 +188,12 @@ func main() {
 
 		for i := range squares {
 			updateMovingSquare(&squares[i])
+		}
+
+		inputDirection, keyPressed := getInputDirection()
+
+		if keyPressed {
+			snake.head.direction = inputDirection
 		}
 
 		updateSnakeTail(&snake)
