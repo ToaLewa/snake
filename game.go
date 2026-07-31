@@ -3,6 +3,7 @@ package main
 type Game struct {
 	squares []MovingSquare
 	snake   Snake
+	food    Food
 }
 
 func NewGame() Game {
@@ -12,10 +13,9 @@ func NewGame() Game {
 			head: MovingSquare{x: 0, y: 60, direction: East},
 			tail: []FollowerSquare{{x: 0, y: 40}, {x: 0, y: 20}, {x: 0, y: 0}},
 		},
+		food: spawnFood(),
 	}
 }
-
-var food Food = spawnFood()
 
 func UpdateGame(g *Game) {
 	for i := range g.squares {
