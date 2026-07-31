@@ -2,9 +2,9 @@ package main
 
 import (
 	"math/rand"
-)
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
 
 type Direction string
 
@@ -16,8 +16,8 @@ const (
 )
 
 type Food struct {
-	x int32
-	y int32
+	x     int32
+	y     int32
 	color rl.Color
 }
 
@@ -112,29 +112,32 @@ func moveAroundEdges(s *MovingSquare) {
 func spawnMovingSquare() MovingSquare {
 	directions := []Direction{South, East, North, West}
 
+	coord := getRandomCoordinate()
+
 	return MovingSquare{
-		x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
-		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
+		x:         coord.x,
+		y:         coord.y,
 		direction: directions[rand.Intn(len(directions))],
 	}
 }
 
 func spawnFood() Food {
+	coord := getRandomCoordinate()
 	return Food{
-		x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
-		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
+		x: coord.x,
+		y: coord.y,
 	}
 }
 
 type coord struct {
-	x: int32,
-	y: int32,
+	x int32
+	y int32
 }
 
-func spawnRandom() coord {
+func getRandomCoordinate() coord {
 	return coord{
-				x:         rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
-		y:         rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
+		x: rand.Int31n(windowDetails.width/gridIncrement) * gridIncrement,
+		y: rand.Int31n(windowDetails.height/gridIncrement) * gridIncrement,
 	}
 }
 
