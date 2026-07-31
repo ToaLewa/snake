@@ -15,6 +15,8 @@ func NewGame() Game {
 	}
 }
 
+var food Food = spawnFood()
+
 func UpdateGame(g *Game) {
 	for i := range g.squares {
 		moveAroundEdges(&g.squares[i])

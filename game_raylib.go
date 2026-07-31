@@ -23,9 +23,14 @@ func DrawGame(g *Game) {
 		renderMovingSquare(&g.squares[i], rl.Blue)
 	}
 
+	renderFood()
 	drawSnake(&g.snake)
 
 	rl.EndDrawing()
+}
+
+func renderFood() {
+	rl.DrawRectangle(food.x, food.y, gridIncrement, gridIncrement, rl.Red)
 }
 
 func renderMovingSquare(s *MovingSquare, color rl.Color) {
