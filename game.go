@@ -30,6 +30,10 @@ func UpdateGame(g *Game) {
 	updateSnakeTail(&g.snake)
 	moveAroundEdges(&g.snake.head)
 
+	if g.food.x == g.snake.head.x && g.food.y == g.snake.head.y {
+		g.food = spawnFood()
+	}
+
 	/*for range 2 {
 		g.squares = append(g.squares, spawnMovingSquare())
 	}*/
