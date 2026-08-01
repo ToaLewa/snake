@@ -26,7 +26,24 @@ func DrawGame(g *Game) {
 	renderFood(&g.food)
 	drawSnake(&g.snake)
 
+	if g.gameOver {
+		drawGameOverScreen()
+	}
+
 	rl.EndDrawing()
+}
+
+func drawGameOverScreen() {
+	overlayColor := rl.NewColor(0, 0, 0, 160)
+	rl.DrawRectangle(0, 0, windowDetails.width, windowDetails.height, overlayColor)
+
+	message := "GAME OVER"
+	fontSize := int32(48)
+	textWidth := rl.MeasureText(message, fontSize)
+	x := (windowDetails.width - textWidth) / 2
+	y := (windowDetails.height - fontSize) / 2
+
+	rl.DrawText(message, x, y, fontSize, rl.White)
 }
 
 func renderFood(food *Food) {

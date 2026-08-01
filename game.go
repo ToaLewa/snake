@@ -3,9 +3,10 @@ package main
 import rl "github.com/gen2brain/raylib-go/raylib"
 
 type Game struct {
-	squares []MovingSquare
-	snake   Snake
-	food    Food
+	squares  []MovingSquare
+	snake    Snake
+	food     Food
+	gameOver bool
 }
 
 func NewGame() Game {
@@ -46,6 +47,10 @@ func isOppositeDirection(currentDirection Direction, newDirection Direction) boo
 }
 
 func UpdateGame(g *Game) {
+	if g.gameOver {
+		return
+	}
+
 	for i := range g.squares {
 		moveAroundEdges(&g.squares[i])
 	}
@@ -55,6 +60,13 @@ func UpdateGame(g *Game) {
 	if float32(g.food.x) == g.snake.head.X && float32(g.food.y) == g.snake.head.Y {
 		g.food = spawnFood()
 		g.snake.tail = append(g.snake.tail, g.snake.tail[0])
+	}
+
+	for tailIndex := range g.snake.tail {
+		if rl.CheckCollisionRecs(g.snake.tail[tailIndex], g.snake.head) {
+			g.gameOver = true
+			return
+		}
 	}
 
 	updateSnakeTail(&g.snake)
