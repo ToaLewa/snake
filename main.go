@@ -47,60 +47,50 @@ var windowDetails = WinStats{width: 800, height: 400}
 const fps = 20
 const gridIncrement = 20
 
-func onLeftBorder(x int32) bool {
-	if x == 0 {
-		return true
-	} else {
-		return false
-	}
+func movingSquareRect(s *MovingSquare) rl.Rectangle {
+	return rl.NewRectangle(float32(s.x), float32(s.y), gridIncrement, gridIncrement)
 }
 
-func onRightBorder(x int32) bool {
-	if x == windowDetails.width-gridIncrement {
-		return true
-	} else {
-		return false
-	}
+func leftBorderRect() rl.Rectangle {
+	return rl.NewRectangle(0, 0, gridIncrement, float32(windowDetails.height))
 }
 
-func onTopBorder(y int32) bool {
-	if y == 0 {
-		return true
-	} else {
-		return false
-	}
+func rightBorderRect() rl.Rectangle {
+	return rl.NewRectangle(float32(windowDetails.width-gridIncrement), 0, gridIncrement, float32(windowDetails.height))
 }
 
-func onBottomBorder(y int32) bool {
-	if y == windowDetails.height-gridIncrement {
-		return true
-	} else {
-		return false
-	}
+func topBorderRect() rl.Rectangle {
+	return rl.NewRectangle(0, 0, float32(windowDetails.width), gridIncrement)
+}
+
+func bottomBorderRect() rl.Rectangle {
+	return rl.NewRectangle(0, float32(windowDetails.height-gridIncrement), float32(windowDetails.width), gridIncrement)
 }
 
 func moveAroundEdges(s *MovingSquare) {
+	squareRect := movingSquareRect(s)
+
 	if s.direction == South {
-		if onBottomBorder(s.y) {
+		if rl.CheckCollisionRecs(squareRect, bottomBorderRect()) {
 			s.direction = East
 		} else {
 			s.y += gridIncrement
 		}
 
 	} else if s.direction == East {
-		if onRightBorder(s.x) {
+		if rl.CheckCollisionRecs(squareRect, rightBorderRect()) {
 			s.direction = North
 		} else {
 			s.x += gridIncrement
 		}
 	} else if s.direction == North {
-		if onTopBorder(s.y) {
+		if rl.CheckCollisionRecs(squareRect, topBorderRect()) {
 			s.direction = West
 		} else {
 			s.y -= gridIncrement
 		}
 	} else {
-		if onLeftBorder(s.x) {
+		if rl.CheckCollisionRecs(squareRect, leftBorderRect()) {
 			s.direction = South
 		} else {
 			s.x -= gridIncrement
