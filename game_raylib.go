@@ -39,8 +39,8 @@ func renderMovingSquare(s *MovingSquare, color rl.Color) {
 
 func drawSnake(s *Snake) {
 	for i := range s.tail {
-		rl.DrawRectangle(s.tail[i].x, s.tail[i].y, gridIncrement, gridIncrement, rl.Black)
+		rl.DrawRectangleRec(s.tail[i], rl.Black)
 	}
 
-	renderMovingSquare(&s.head, rl.Black)
+	rl.DrawRectangleRec(s.head, rl.Black)
 }

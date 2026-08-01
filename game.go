@@ -1,5 +1,7 @@
 package main
 
+import rl "github.com/gen2brain/raylib-go/raylib"
+
 type Game struct {
 	squares []MovingSquare
 	snake   Snake
@@ -10,8 +12,9 @@ func NewGame() Game {
 	return Game{
 		squares: []MovingSquare{},
 		snake: Snake{
-			head: MovingSquare{x: 0, y: 60, direction: East},
-			tail: []FollowerSquare{{x: 0, y: 40}, {x: 0, y: 20}, {x: 0, y: 0}},
+			head:      gridRect(0, 60),
+			tail:      []rl.Rectangle{gridRect(0, 40), gridRect(0, 20), gridRect(0, 0)},
+			direction: East,
 		},
 		food: spawnFood(),
 	}
@@ -47,15 +50,15 @@ func UpdateGame(g *Game) {
 		moveAroundEdges(&g.squares[i])
 	}
 
-	moveByKeyboard(&g.snake.head)
+	moveByKeyboard(&g.snake)
 
-	if g.food.x == g.snake.head.x && g.food.y == g.snake.head.y {
+	if float32(g.food.x) == g.snake.head.X && float32(g.food.y) == g.snake.head.Y {
 		g.food = spawnFood()
-		g.snake.tail = append(g.snake.tail, FollowerSquare{x: g.snake.tail[0].x, y: g.snake.tail[0].y})
+		g.snake.tail = append(g.snake.tail, g.snake.tail[0])
 	}
 
 	updateSnakeTail(&g.snake)
-	moveAroundEdges(&g.snake.head)
+	moveSnakeAroundEdges(&g.snake)
 
 	/*for range 2 {
 		g.squares = append(g.squares, spawnMovingSquare())
