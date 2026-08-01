@@ -40,7 +40,7 @@ type Snake struct {
 
 var windowDetails = WinStats{width: 800, height: 400}
 
-const fps = 20
+const fps = 15
 const gridIncrement = 20
 
 func movingSquareRect(s *MovingSquare) rl.Rectangle {

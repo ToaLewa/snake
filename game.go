@@ -48,6 +48,11 @@ func isOppositeDirection(currentDirection Direction, newDirection Direction) boo
 
 func UpdateGame(g *Game) {
 	if g.gameOver {
+		if rl.IsKeyPressed(rl.KeyEnter) {
+			g.gameOver = false
+			*g = NewGame()
+		}
+
 		return
 	}
 
