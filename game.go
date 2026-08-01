@@ -13,8 +13,8 @@ func NewGame() Game {
 	return Game{
 		squares: []MovingSquare{},
 		snake: Snake{
-			head:      gridRect(0, 60),
-			tail:      []rl.Rectangle{gridRect(0, 40), gridRect(0, 20), gridRect(0, 0)},
+			head:      gridRect(40, 0),
+			tail:      []rl.Rectangle{gridRect(20, 0), gridRect(0, 0)},
 			direction: East,
 		},
 		food: spawnFood(),
@@ -46,11 +46,15 @@ func isOppositeDirection(currentDirection Direction, newDirection Direction) boo
 	return isOpposite
 }
 
+func Restart(g *Game) {
+	g.gameOver = false
+	*g = NewGame()
+}
+
 func UpdateGame(g *Game) {
 	if g.gameOver {
 		if rl.IsKeyPressed(rl.KeyEnter) {
-			g.gameOver = false
-			*g = NewGame()
+			Restart(g)
 		}
 
 		return
