@@ -47,12 +47,7 @@ func UpdateGame(g *Game) {
 		moveAroundEdges(&g.squares[i])
 	}
 
-	inputDirection, keyPressed := getInputDirection()
-	if keyPressed {
-		if !isOppositeDirection(g.snake.head.direction, inputDirection) {
-			g.snake.head.direction = inputDirection
-		}
-	}
+	moveByKeyboard(&g.snake.head)
 
 	if g.food.x == g.snake.head.x && g.food.y == g.snake.head.y {
 		g.food = spawnFood()
