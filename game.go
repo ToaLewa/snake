@@ -27,12 +27,13 @@ func UpdateGame(g *Game) {
 		g.snake.head.direction = inputDirection
 	}
 
-	updateSnakeTail(&g.snake)
-	moveAroundEdges(&g.snake.head)
-
 	if g.food.x == g.snake.head.x && g.food.y == g.snake.head.y {
 		g.food = spawnFood()
+		g.snake.tail = append(g.snake.tail, FollowerSquare{x: g.snake.tail[0].x, y: g.snake.tail[0].y})
 	}
+
+	updateSnakeTail(&g.snake)
+	moveAroundEdges(&g.snake.head)
 
 	/*for range 2 {
 		g.squares = append(g.squares, spawnMovingSquare())
