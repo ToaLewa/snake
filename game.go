@@ -17,6 +17,31 @@ func NewGame() Game {
 	}
 }
 
+func isOppositeDirection(currentDirection Direction, newDirection Direction) bool {
+	isOpposite := false
+	switch currentDirection {
+	case North:
+		if newDirection == South {
+			isOpposite = true
+		}
+	case South:
+		if newDirection == North {
+			isOpposite = true
+		}
+	case East:
+		if newDirection == West {
+			isOpposite = true
+		}
+	case West:
+		if newDirection == East {
+			isOpposite = true
+		}
+
+	}
+
+	return isOpposite
+}
+
 func UpdateGame(g *Game) {
 	for i := range g.squares {
 		moveAroundEdges(&g.squares[i])
@@ -24,7 +49,9 @@ func UpdateGame(g *Game) {
 
 	inputDirection, keyPressed := getInputDirection()
 	if keyPressed {
-		g.snake.head.direction = inputDirection
+		if !isOppositeDirection(g.snake.head.direction, inputDirection) {
+			g.snake.head.direction = inputDirection
+		}
 	}
 
 	if g.food.x == g.snake.head.x && g.food.y == g.snake.head.y {
