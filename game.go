@@ -1,6 +1,12 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
 
 type Game struct {
 	snake     Snake
@@ -54,11 +60,44 @@ func checkBorderCollision(g *Game) {
 	}
 }
 
+func savePath() (string, error) {
+	configDir, err := os.UserConfigDir()
+
+	if err != nil {
+		return "", err
+	}
+
+	dir := filepath.Join(configDir, "power_snake")
+
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return "", err
+	}
+
+	return filepath.Join(dir, "save.json"), nil
+}
+
+func Save(g *Game) error {
+	path, err := savePath()
+
+	if err != nil {
+		return err
+	}
+
+	data := []byte(fmt.Sprintf(`{"high_score":%d}`, g.foodEaten))
+	err = os.WriteFile(path, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func UpdateGame(g *Game) {
 	checkTailCollision(g)
 
 	if g.gameOver {
 		if rl.IsKeyPressed(rl.KeyEnter) {
+			Save(g)
 			Restart(g)
 		}
 
