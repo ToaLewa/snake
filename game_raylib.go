@@ -19,10 +19,6 @@ func DrawGame(g *Game) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.RayWhite)
 
-	for i := range g.squares {
-		renderMovingSquare(&g.squares[i], rl.Blue)
-	}
-
 	renderFood(&g.food)
 	drawSnake(&g.snake)
 

@@ -3,15 +3,14 @@ package main
 import rl "github.com/gen2brain/raylib-go/raylib"
 
 type Game struct {
-	squares  []MovingSquare
-	snake    Snake
-	food     Food
-	gameOver bool
+	snake     Snake
+	food      Food
+	foodEaten int
+	gameOver  bool
 }
 
 func NewGame() Game {
 	return Game{
-		squares: []MovingSquare{},
 		snake: Snake{
 			head: gridRect(gridIncrement*5, 0),
 			tail: []rl.Rectangle{
@@ -22,7 +21,8 @@ func NewGame() Game {
 			},
 			direction: East,
 		},
-		food: spawnFood(),
+		food:      spawnFood(),
+		foodEaten: 0,
 	}
 }
 
@@ -38,10 +38,6 @@ func UpdateGame(g *Game) {
 		}
 
 		return
-	}
-
-	for i := range g.squares {
-		moveAroundEdges(&g.squares[i])
 	}
 
 	moveByKeyboard(&g.snake)
