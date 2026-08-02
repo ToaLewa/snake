@@ -1,7 +1,5 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
-
 func isOppositeDirection(currentDirection Direction, newDirection Direction) bool {
 	isOpposite := false
 	switch currentDirection {
@@ -38,30 +36,12 @@ func pickDirectionByKeyboard(s *Snake) {
 
 func moveSnake(s *Snake) {
 	if s.direction == South {
-		if rl.CheckCollisionRecs(s.head, bottomBorderRect()) {
-			s.direction = East
-		} else {
-			s.head.Y += gridIncrement
-		}
-
+		s.head.Y += gridIncrement
 	} else if s.direction == East {
-		if rl.CheckCollisionRecs(s.head, rightBorderRect()) {
-			s.direction = North
-		} else {
-			s.head.X += gridIncrement
-		}
+		s.head.X += gridIncrement
 	} else if s.direction == North {
-		if rl.CheckCollisionRecs(s.head, topBorderRect()) {
-			s.direction = West
-		} else {
-			s.head.Y -= gridIncrement
-		}
+		s.head.Y -= gridIncrement
 	} else {
-		if rl.CheckCollisionRecs(s.head, leftBorderRect()) {
-			s.direction = South
-		} else {
-			s.head.X -= gridIncrement
-		}
-
+		s.head.X -= gridIncrement
 	}
 }
