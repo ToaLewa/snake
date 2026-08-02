@@ -99,36 +99,6 @@ func moveAroundEdges(s *MovingSquare) {
 	}
 }
 
-func moveSnake(s *Snake) {
-	if s.direction == South {
-		if rl.CheckCollisionRecs(s.head, bottomBorderRect()) {
-			s.direction = East
-		} else {
-			s.head.Y += gridIncrement
-		}
-
-	} else if s.direction == East {
-		if rl.CheckCollisionRecs(s.head, rightBorderRect()) {
-			s.direction = North
-		} else {
-			s.head.X += gridIncrement
-		}
-	} else if s.direction == North {
-		if rl.CheckCollisionRecs(s.head, topBorderRect()) {
-			s.direction = West
-		} else {
-			s.head.Y -= gridIncrement
-		}
-	} else {
-		if rl.CheckCollisionRecs(s.head, leftBorderRect()) {
-			s.direction = South
-		} else {
-			s.head.X -= gridIncrement
-		}
-
-	}
-}
-
 func spawnMovingSquare() MovingSquare {
 	directions := []Direction{South, East, North, West}
 
