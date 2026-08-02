@@ -7,22 +7,36 @@ type Game struct {
 	food      Food
 	foodEaten int
 	gameOver  bool
+	borders   Borders
+}
+
+type Borders struct {
+	top    rl.Rectangle
+	bottom rl.Rectangle
+	right  rl.Rectangle
+	left   rl.Rectangle
 }
 
 func NewGame() Game {
 	return Game{
 		snake: Snake{
-			head: gridRect(gridIncrement*5, 0),
+			head: gridRect(gridIncrement*5, gridIncrement),
 			tail: []rl.Rectangle{
-				gridRect(gridIncrement*4, 0),
-				gridRect(gridIncrement*3, 0),
-				gridRect(gridIncrement*2, 0),
-				gridRect(gridIncrement*1, 0),
+				gridRect(gridIncrement*4, gridIncrement),
+				gridRect(gridIncrement*3, gridIncrement),
+				gridRect(gridIncrement*2, gridIncrement),
+				gridRect(gridIncrement*1, gridIncrement),
 			},
 			direction: East,
 		},
 		food:      spawnFood(),
 		foodEaten: 0,
+		borders: Borders{
+			top:    rl.NewRectangle(0, 0, float32(windowDetails.width), gridIncrement),
+			bottom: rl.NewRectangle(0, float32(windowDetails.height-gridIncrement), float32(windowDetails.width), gridIncrement),
+			right:  rl.NewRectangle(float32(windowDetails.width-gridIncrement), 0, gridIncrement, float32(windowDetails.height)),
+			left:   rl.NewRectangle(0, 0, gridIncrement, float32(windowDetails.height)),
+		},
 	}
 }
 
@@ -31,8 +45,18 @@ func Restart(g *Game) {
 	*g = NewGame()
 }
 
+func checkBorderCollision(g *Game) {
+	if rl.CheckCollisionRecs(g.snake.head, g.borders.top) ||
+		rl.CheckCollisionRecs(g.snake.head, g.borders.bottom) ||
+		rl.CheckCollisionRecs(g.snake.head, g.borders.right) ||
+		rl.CheckCollisionRecs(g.snake.head, g.borders.left) {
+		g.gameOver = true
+	}
+}
+
 func UpdateGame(g *Game) {
 	checkTailCollision(g)
+	checkBorderCollision(g)
 
 	if g.gameOver {
 		if rl.IsKeyPressed(rl.KeyEnter) {
