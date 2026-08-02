@@ -32,6 +32,8 @@ func Restart(g *Game) {
 }
 
 func UpdateGame(g *Game) {
+	checkTailCollision(g)
+
 	if g.gameOver {
 		if rl.IsKeyPressed(rl.KeyEnter) {
 			Restart(g)
@@ -43,15 +45,16 @@ func UpdateGame(g *Game) {
 	pickDirectionByKeyboard(&g.snake)
 	checkEat(g)
 
+	updateSnakeTail(&g.snake)
+	moveSnake(&g.snake)
+}
+
+func checkTailCollision(g *Game) {
 	for tailIndex := range g.snake.tail {
 		if rl.CheckCollisionRecs(g.snake.tail[tailIndex], g.snake.head) {
 			g.gameOver = true
-			return
 		}
 	}
-
-	updateSnakeTail(&g.snake)
-	moveSnake(&g.snake)
 }
 
 func checkEat(g *Game) {
