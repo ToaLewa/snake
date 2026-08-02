@@ -13,8 +13,13 @@ func NewGame() Game {
 	return Game{
 		squares: []MovingSquare{},
 		snake: Snake{
-			head:      gridRect(40, 0),
-			tail:      []rl.Rectangle{gridRect(20, 0), gridRect(0, 0)},
+			head: gridRect(gridIncrement*5, 0),
+			tail: []rl.Rectangle{
+				gridRect(gridIncrement*4, 0),
+				gridRect(gridIncrement*3, 0),
+				gridRect(gridIncrement*2, 0),
+				gridRect(gridIncrement*1, 0),
+			},
 			direction: East,
 		},
 		food: spawnFood(),
