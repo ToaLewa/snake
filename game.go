@@ -32,10 +32,10 @@ func NewGame() Game {
 		food:      spawnFood(),
 		foodEaten: 0,
 		borders: Borders{
-			top:    rl.NewRectangle(0, 0, float32(windowDetails.width), gridIncrement),
-			bottom: rl.NewRectangle(0, float32(windowDetails.height-gridIncrement), float32(windowDetails.width), gridIncrement),
-			right:  rl.NewRectangle(float32(windowDetails.width-gridIncrement), 0, gridIncrement, float32(windowDetails.height)),
-			left:   rl.NewRectangle(0, 0, gridIncrement, float32(windowDetails.height)),
+			top:    rl.NewRectangle(0, -gridIncrement, float32(windowDetails.width), gridIncrement),
+			bottom: rl.NewRectangle(0, float32(windowDetails.height), float32(windowDetails.width), gridIncrement),
+			right:  rl.NewRectangle(float32(windowDetails.width), 0, gridIncrement, float32(windowDetails.height)),
+			left:   rl.NewRectangle(-gridIncrement, 0, gridIncrement, float32(windowDetails.height)),
 		},
 	}
 }
@@ -56,7 +56,6 @@ func checkBorderCollision(g *Game) {
 
 func UpdateGame(g *Game) {
 	checkTailCollision(g)
-	checkBorderCollision(g)
 
 	if g.gameOver {
 		if rl.IsKeyPressed(rl.KeyEnter) {
@@ -71,6 +70,7 @@ func UpdateGame(g *Game) {
 
 	updateSnakeTail(&g.snake)
 	moveSnake(&g.snake)
+	checkBorderCollision(g)
 }
 
 func checkTailCollision(g *Game) {
