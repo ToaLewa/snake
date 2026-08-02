@@ -55,5 +55,5 @@ func drawSnake(s *Snake) {
 		rl.DrawRectangleRec(s.tail[i], rl.Black)
 	}
 
-	rl.DrawRectangleRec(s.head, rl.Black)
+	rl.DrawRectangleRec(s.head, rl.Blue)
 }
