@@ -99,7 +99,7 @@ func moveAroundEdges(s *MovingSquare) {
 	}
 }
 
-func moveSnakeAroundEdges(s *Snake) {
+func moveSnake(s *Snake) {
 	if s.direction == South {
 		if rl.CheckCollisionRecs(s.head, bottomBorderRect()) {
 			s.direction = East

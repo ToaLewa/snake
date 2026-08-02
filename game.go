@@ -40,7 +40,7 @@ func UpdateGame(g *Game) {
 		return
 	}
 
-	moveByKeyboard(&g.snake)
+	pickDirectionByKeyboard(&g.snake)
 
 	if float32(g.food.x) == g.snake.head.X && float32(g.food.y) == g.snake.head.Y {
 		g.food = spawnFood()
@@ -55,7 +55,7 @@ func UpdateGame(g *Game) {
 	}
 
 	updateSnakeTail(&g.snake)
-	moveSnakeAroundEdges(&g.snake)
+	moveSnake(&g.snake)
 
 	/*for range 2 {
 		g.squares = append(g.squares, spawnMovingSquare())

@@ -25,7 +25,7 @@ func isOppositeDirection(currentDirection Direction, newDirection Direction) boo
 	return isOpposite
 }
 
-func moveByKeyboard(s *Snake) {
+func pickDirectionByKeyboard(s *Snake) {
 	inputDirection, keyPressed := getInputDirection()
 	if keyPressed {
 		if !isOppositeDirection(s.direction, inputDirection) {
