@@ -85,5 +85,6 @@ func checkEat(g *Game) {
 	if float32(g.food.x) == g.snake.head.X && float32(g.food.y) == g.snake.head.Y {
 		g.food = spawnFood()
 		g.snake.tail = append(g.snake.tail, g.snake.tail[0])
+		g.foodEaten++
 	}
 }

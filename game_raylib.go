@@ -1,6 +1,10 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	"strconv"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
 
 func SetupWindow() {
 	rl.InitWindow(windowDetails.width, windowDetails.height, "Snake")
@@ -23,17 +27,17 @@ func DrawGame(g *Game) {
 	drawSnake(&g.snake)
 
 	if g.gameOver {
-		drawGameOverScreen()
+		drawGameOverScreen(g)
 	}
 
 	rl.EndDrawing()
 }
 
-func drawGameOverScreen() {
+func drawGameOverScreen(g *Game) {
 	overlayColor := rl.NewColor(0, 0, 0, 160)
 	rl.DrawRectangle(0, 0, windowDetails.width, windowDetails.height, overlayColor)
 
-	message := "GAME OVER"
+	message := "GAME OVER\nSCORE: " + strconv.Itoa(g.foodEaten)
 	fontSize := int32(48)
 	textWidth := rl.MeasureText(message, fontSize)
 	x := (windowDetails.width - textWidth) / 2
