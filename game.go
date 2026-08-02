@@ -14,6 +14,12 @@ type Game struct {
 	foodEaten int
 	gameOver  bool
 	borders   Borders
+	shake     ScreenShake
+}
+
+type ScreenShake struct {
+	frames    int
+	magnitude float32
 }
 
 type Borders struct {
@@ -57,6 +63,18 @@ func checkBorderCollision(g *Game) {
 		rl.CheckCollisionRecs(g.snake.head, g.borders.right) ||
 		rl.CheckCollisionRecs(g.snake.head, g.borders.left) {
 		g.gameOver = true
+		ShakeScreen(g, 6, 8)
+	}
+}
+
+func ShakeScreen(g *Game, frames int, magnitude float32) {
+	g.shake.frames = frames
+	g.shake.magnitude = magnitude
+}
+
+func updateScreenShake(g *Game) {
+	if g.shake.frames > 0 {
+		g.shake.frames--
 	}
 }
 
@@ -93,6 +111,7 @@ func Save(g *Game) error {
 }
 
 func UpdateGame(g *Game) {
+	updateScreenShake(g)
 	checkTailCollision(g)
 
 	if g.gameOver {
@@ -114,8 +133,9 @@ func UpdateGame(g *Game) {
 
 func checkTailCollision(g *Game) {
 	for tailIndex := range g.snake.tail {
-		if rl.CheckCollisionRecs(g.snake.tail[tailIndex], g.snake.head) {
+		if !g.gameOver && rl.CheckCollisionRecs(g.snake.tail[tailIndex], g.snake.head) {
 			g.gameOver = true
+			ShakeScreen(g, 6, 8)
 		}
 	}
 }
@@ -125,5 +145,6 @@ func checkEat(g *Game) {
 		g.food = spawnFood()
 		g.snake.tail = append(g.snake.tail, g.snake.tail[0])
 		g.foodEaten++
+		ShakeScreen(g, 3, 1)
 	}
 }

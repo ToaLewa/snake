@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"strconv"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -23,14 +24,34 @@ func DrawGame(g *Game) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.RayWhite)
 
+	beginScreenShake(g)
 	renderFood(&g.food)
 	drawSnake(&g.snake)
+	rl.EndMode2D()
 
 	if g.gameOver {
 		drawGameOverScreen(g)
 	}
 
 	rl.EndDrawing()
+}
+
+func beginScreenShake(g *Game) {
+	camera := rl.NewCamera2D(
+		rl.NewVector2(screenShakeOffset(g), screenShakeOffset(g)),
+		rl.NewVector2(0, 0),
+		0,
+		1,
+	)
+	rl.BeginMode2D(camera)
+}
+
+func screenShakeOffset(g *Game) float32 {
+	if g.shake.frames <= 0 {
+		return 0
+	}
+
+	return (rand.Float32()*2 - 1) * g.shake.magnitude
 }
 
 func drawGameOverScreen(g *Game) {
