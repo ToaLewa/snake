@@ -33,9 +33,10 @@ type WinStats struct {
 }
 
 type Snake struct {
-	head      rl.Rectangle
-	tail      []rl.Rectangle
-	direction Direction
+	head       rl.Rectangle
+	tail       []rl.Rectangle
+	growthRate int
+	direction  Direction
 }
 
 var windowDetails = WinStats{width: 800, height: 400}

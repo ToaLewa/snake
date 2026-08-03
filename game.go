@@ -39,7 +39,8 @@ func NewGame() Game {
 				gridRect(gridIncrement*2, gridIncrement),
 				gridRect(gridIncrement*1, gridIncrement),
 			},
-			direction: East,
+			growthRate: 5,
+			direction:  East,
 		},
 		food:      spawnFood(),
 		foodEaten: 0,
@@ -143,7 +144,9 @@ func checkTailCollision(g *Game) {
 func checkEat(g *Game) {
 	if float32(g.food.x) == g.snake.head.X && float32(g.food.y) == g.snake.head.Y {
 		g.food = spawnFood()
-		g.snake.tail = append(g.snake.tail, g.snake.tail[0])
+		for _ = range g.snake.growthRate {
+			g.snake.tail = append(g.snake.tail, g.snake.tail[0])
+		}
 		g.foodEaten++
 		ShakeScreen(g, 3, 1)
 	}
